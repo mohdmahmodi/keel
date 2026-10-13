@@ -104,6 +104,13 @@ codesign -dvv /Applications/Keel.app/Contents/MacOS/KeelHelper 2>&1 | grep -E 'I
 # TeamIdentifier=KLB57Y57PP
 ```
 
+## Disk image layout
+
+`scripts/make-dmg.sh` builds the disk image with a "drag Keel into Applications" window. It positions the
+icons through Finder, so the first release run asks to let Terminal control Finder. If that is denied, the
+image is still built with Finder's default layout. The background artwork is
+`Resources/dmg-background.tiff`, drawn by `scripts/make-dmg-background.py`.
+
 ## Website
 
 The site in `docs/site/` is deployed by Cloudflare Pages from `main` (root directory `docs/site`, no build

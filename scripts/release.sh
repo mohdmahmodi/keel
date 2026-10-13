@@ -162,13 +162,8 @@ run xcrun stapler validate "$APP"
 run spctl --assess --type execute -vv "$APP"
 
 # ---- 5. DMG -------------------------------------------------------------------------------------
-step "Build the DMG (Keel.app + Applications link)"
-STAGE="$(mktemp -d -t keel-dmg)"
-do_ ditto "$APP" "$STAGE/Keel.app"
-do_ ln -s /Applications "$STAGE/Applications"
-do_ rm -f "$DMG"
-do_ hdiutil create -quiet -volname "Keel $VERSION" -srcfolder "$STAGE" -fs HFS+ -format UDZO -imagekey zlib-level=9 -ov "$DMG"
-rm -rf "$STAGE"
+step "Build the DMG (Keel.app, Applications link, drag-to-install window)"
+do_ scripts/make-dmg.sh "$APP" "$DMG" "Keel $VERSION"
 do_ hdiutil verify -quiet "$DMG"
 
 step "Sign, notarize and staple the DMG"

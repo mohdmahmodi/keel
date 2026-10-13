@@ -127,6 +127,23 @@ enum DebugHarness {
         NSApp.terminate(nil)
     }
 
+    /// `--render-onboarding <dir>`: renders each welcome step to a PNG.
+    static func renderOnboarding(dir: String) {
+        _ = NSApplication.shared
+        NSApp.appearance = NSAppearance(named: .darkAqua)
+        try? FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true)
+        for step in 0..<3 {
+            UserDefaults.standard.set(step, forKey: "onboardingStep")
+            let r = ImageRenderer(content: OnboardingSheet(done: {}).environment(\.colorScheme, .dark))
+            r.scale = 2
+            if let img = r.nsImage, let tiff = img.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff),
+               let png = rep.representation(using: .png, properties: [:]) {
+                try? png.write(to: URL(fileURLWithPath: "\(dir)/onboarding-\(step).png"))
+            }
+        }
+        UserDefaults.standard.removeObject(forKey: "onboardingStep")
+    }
+
     /// `--menu-preview`: shows the menu bar panel in a normal window so it can be captured.
     static func showMenuPreview() {
         let host = NSHostingView(rootView: MenuBarPanel())

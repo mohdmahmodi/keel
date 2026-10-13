@@ -63,7 +63,7 @@ struct MenuBarPanel: View {
                     .buttonStyle(.keel)
                     .disabled(TweakStore.shared.detecting)
                 Spacer()
-                Button("Quit") { NSApp.terminate(nil) }.buttonStyle(.keelGhost)
+                Button("Quit") { AppDelegate.quit() }.buttonStyle(.keelGhost)
             }
         }
         .padding(14)

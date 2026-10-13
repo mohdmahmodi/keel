@@ -7,6 +7,9 @@ enum Permissions {
     nonisolated(unsafe) private static var fdaCache: (Date, Bool)? = nil
     private static let lock = NSLock()
 
+    /// Forgets the cached Full Disk Access answer, so the next check probes again.
+    static func recheckFullDiskAccess() { lock.lock(); fdaCache = nil; lock.unlock() }
+
     /// Full Disk Access, probed by listing a TCC-protected folder (EPERM without FDA; never prompts). Cached 10 s.
     static var hasFullDiskAccess: Bool {
         lock.lock(); defer { lock.unlock() }

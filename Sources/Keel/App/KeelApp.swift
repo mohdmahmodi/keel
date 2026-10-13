@@ -12,6 +12,9 @@ struct KeelMain {
         if args.contains("--lint") { exit(await CLI.lint()) }
         if args.contains("--catalog-json") { await CLI.catalogJSON(); exit(0) }
         if args.contains("--move-check") { await CLI.moveCheck(); exit(0) }
+        #if DEBUG
+        if let i = args.firstIndex(of: "--render-onboarding"), args.count > i + 1 { await MainActor.run { DebugHarness.renderOnboarding(dir: args[i + 1]) }; exit(0) }
+        #endif
         if args.contains("--selftest-defaults") { await CLI.selfTestDefaults(); exit(0) }
         if args.contains("--selftest-custom") { await CLI.selfTestCustom(); exit(0) }
         if args.contains("--selftest-launchd") { await CLI.selfTestLaunchd(); exit(0) }
@@ -90,6 +93,10 @@ struct KeelCommands: Commands {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // AppKit refuses a quit request while a sheet is open, which breaks macOS's "Quit & Reopen"
+        // after a permission is granted. Handle the request here: close sheets, then quit.
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(handleQuit(_:withReply:)),
+                                                     forEventClass: AEEventClass(kCoreEventClass), andEventID: AEEventID(kAEQuitApplication))
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
         Task { @MainActor in
@@ -111,6 +118,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             #endif
+        }
+    }
+    @objc func handleQuit(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
+        MainActor.assumeIsolated { AppDelegate.quit() }
+    }
+
+    /// Closes any open sheet and quits. Used for quit requests from macOS and the menu bar.
+    @MainActor static func quit() {
+        Navigator.shared.showOnboarding = false
+        ChangeCenter.shared.cancel()
+        for w in NSApp.windows { if let sheet = w.attachedSheet { w.endSheet(sheet) } }
+        if NSApp.modalWindow != nil { NSApp.stopModal() }
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(150))
+            NSApp.terminate(nil)
+        }
+    }
+
+    /// Changes and cleanups that are running finish first, so quitting never interrupts them.
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        MainActor.assumeIsolated {
+            let busy = { TweakStore.shared.running > 0 || CleanupModel.shared.cleaning }
+            guard busy() else { return .terminateNow }
+            ActivityLog.shared.info("Quitting after the current changes finish")
+            Task { @MainActor in
+                while busy() { try? await Task.sleep(for: .milliseconds(200)) }
+                NSApp.reply(toApplicationShouldTerminate: true)
+            }
+            return .terminateLater
         }
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
