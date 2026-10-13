@@ -149,10 +149,11 @@ h2 { font-size: 36px; line-height: 1.15; letter-spacing: -.02em; }
 
 /* Hero */
 .hero { position: relative; min-height: 860px; padding: 72px var(--pad) 0; overflow: hidden; isolation: isolate; background: var(--bg); }
-.hero-copy { position: relative; z-index: 3; max-width: 560px; }
-.hero h1 { font-size: 60px; line-height: 1.1; letter-spacing: -.035em; white-space: nowrap; }
+.hero-copy { position: relative; z-index: 3; }
+.hero h1 { font-size: 60px; line-height: 1.1; letter-spacing: -.035em; }
+.nw { white-space: nowrap; }
 .accent { background: linear-gradient(90deg, #ff7a45, #ffb27a); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lede { margin-top: 20px; max-width: 480px; color: var(--text-2); font-size: 18px; line-height: 1.55; }
+.lede { margin-top: 20px; max-width: 640px; color: var(--text-2); font-size: 18px; line-height: 1.55; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .dl-meta { margin-top: 14px; color: var(--text-3); font: 400 12px/1.4 var(--mono); }
 .hero-chips { margin-top: 28px; max-width: 520px; }
@@ -375,6 +376,10 @@ pre code { padding: 0; border: 0; background: none; font-size: 12px; line-height
 .dock-sub { color: var(--text-3); font-size: 12px; }
 
 /* Responsive */
+@media (max-width: 1360px) {
+  .lede { max-width: 480px; }
+  .hero-back { left: 48%; }
+}
 @media (max-width: 1200px) {
   .hero { min-height: 0; padding-bottom: 0; }
   .hero-copy { max-width: none; }
@@ -406,7 +411,8 @@ pre code { padding: 0; border: 0; background: none; font-size: 12px; line-height
   .frame::before, .frame::after { display: none; }
   .nav-in { width: 100%; }
   .hero { padding-top: 48px; }
-  .hero h1 { font-size: 40px; white-space: normal; }
+  .hero h1 { font-size: 40px; }
+  .nw { white-space: normal; }
   h2 { text-wrap: balance; }
   .cat-tools .chips, .who { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--pad)); padding-inline: var(--pad); }
   .cat-tools .chips::-webkit-scrollbar, .who::-webkit-scrollbar { display: none; }
