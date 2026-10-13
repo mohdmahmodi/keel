@@ -23,7 +23,7 @@ keel_detect_identity() {
 # Human-readable name for an identity given as SHA-1 or name.
 keel_identity_name() {
   local id="$1"
-  security find-identity -v -p codesigning 2>/dev/null | grep -F "$id" | sed -n 's/.*"\(.*\)"/\1/p' | head -1
+  security find-identity -v -p codesigning 2>/dev/null | grep -F "$id" | sed -n 's/.*"\(.*\)"/\1/p' | head -1 || true
 }
 
 # Team ID from "… (TEAMID)" or from the keychain entry for a SHA-1.

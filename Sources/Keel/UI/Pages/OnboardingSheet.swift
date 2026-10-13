@@ -33,6 +33,17 @@ struct OnboardingSheet: View {
                         "Promise speed-ups it cannot show. Cosmetic tweaks are labelled.",
                     ])
                 }
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: "stopwatch").font(.system(size: 13)).foregroundStyle(.secondary).frame(width: 18).accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Start with a benchmark").font(Theme.bodyStrong)
+                        Text("Run one before you change anything. It becomes your baseline, so you can compare after each change and see what actually improved.")
+                            .font(Theme.small).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 8)
+                    Button("Run benchmark") { done(); Navigator.shared.open(.benchmark) }.buttonStyle(KeelButtonStyle(small: true))
+                }
+                .card(padding: 12)
                 VStack(alignment: .leading, spacing: 10) {
                     SectionTitle(text: "Optional")
                     permission(symbol: "person.badge.shield.checkmark", title: "Keel helper",

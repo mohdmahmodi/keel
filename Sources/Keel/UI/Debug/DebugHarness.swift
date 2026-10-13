@@ -71,6 +71,13 @@ enum DebugHarness {
         let store = TweakStore.shared, nav = Navigator.shared, center = ChangeCenter.shared
         while store.detecting || store.lastDetect == nil { try? await Task.sleep(for: .milliseconds(200)) }
         try? FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true)
+        // Wait for the cleanup scan so no page is captured mid-measurement.
+        let cleanup = CleanupModel.shared
+        if cleanup.lastScan == nil && !cleanup.scanning { Task { await cleanup.scan() } }
+        for _ in 0..<600 where cleanup.lastScan == nil || cleanup.scanning || !cleanup.measuring.isEmpty {
+            try? await Task.sleep(for: .milliseconds(250))
+        }
+        try? await Task.sleep(for: .seconds(1))
         guard let win = NSApp.windows.first(where: { $0.identifier?.rawValue == "main" }) else { return }
         func save(_ view: NSView, _ name: String) {
             guard let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
@@ -87,6 +94,10 @@ enum DebugHarness {
                     nav.selectedTweak = nil
                     nav.open(p)
                     await settle(p == .overview ? 2.5 : 1.2)
+                    for _ in 0..<240 where cleanup.scanning || !cleanup.measuring.isEmpty {
+                        try? await Task.sleep(for: .milliseconds(250))
+                    }
+                    if p == .cleanup { await settle(0.6) }
                     save(win.contentView!, "\(p.rawValue.lowercased())-\(tag)-\(theme)")
                 }
                 nav.open(.tweaks); nav.selectedTweak = drawerID

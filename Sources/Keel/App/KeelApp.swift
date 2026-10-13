@@ -10,6 +10,8 @@ struct KeelMain {
         if args.contains("--engine-test") { await CLI.engineTest(); exit(0) }
         if args.contains("--permissions") { CLI.permissions(); exit(0) }
         if args.contains("--lint") { exit(await CLI.lint()) }
+        if args.contains("--catalog-json") { await CLI.catalogJSON(); exit(0) }
+        if args.contains("--move-check") { await CLI.moveCheck(); exit(0) }
         if args.contains("--selftest-defaults") { await CLI.selfTestDefaults(); exit(0) }
         if args.contains("--selftest-custom") { await CLI.selfTestCustom(); exit(0) }
         if args.contains("--selftest-launchd") { await CLI.selfTestLaunchd(); exit(0) }
@@ -93,8 +95,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Task { @MainActor in
             Navigator.shared.page = MainView.initialPage()
             if let t = MainView.initialTweak() { Navigator.shared.openTweak(t) }
-            ActivityLog.shared.info("Keel started")
+            if ProcessInfo.processInfo.environment["KEEL_MOVE_TEST_DIR"] == nil { ActivityLog.shared.info("Keel started") }
             UpdateChecker.shared.startAutomaticChecks()
+            try? await Task.sleep(for: .milliseconds(400))
+            AppMover.offerIfNeeded()
             #if DEBUG
             // --window-size WxH, for screenshots.
             if let i = CommandLine.arguments.firstIndex(of: "--window-size"), CommandLine.arguments.count > i + 1 {

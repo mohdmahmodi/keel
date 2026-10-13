@@ -2,455 +2,437 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Keel for Mac</title>
-<meta name="description" content="Keel tunes and cleans Apple Silicon Macs. It shows each setting's current value, records the original before changing it, verifies the result and restores it exactly.">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1b1b1d" media="(prefers-color-scheme: dark)">
-<meta property="og:title" content="Keel for Mac">
-<meta property="og:description" content="Tunes and cleans Apple Silicon Macs. Every change is recorded first and can be put back exactly.">
+<meta name="description" content="Keel tunes and cleans Apple Silicon Macs. It records every setting before changing it, checks the result, and restores the original when you switch it off. Free and open source.">
+<meta name="theme-color" content="#171717">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://keel.mohdmahmodi.com/">
+<link rel="icon" href="assets/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon-256.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://keel.mohdmahmodi.com/">
-<meta property="og:image" content="https://keel.mohdmahmodi.com/assets/preview-desktop-light.png">
-<link rel="canonical" href="https://keel.mohdmahmodi.com/">
-<link rel="icon" type="image/png" href="assets/favicon-64.png">
-<link rel="apple-touch-icon" href="assets/icon-256.png">
-<link rel="stylesheet" href="style.css">
+<meta property="og:title" content="Keel for Mac">
+<meta property="og:description" content="Tune your Mac. Put it back exactly. Free and open source for Apple silicon.">
+<meta property="og:image" content="https://keel.mohdmahmodi.com/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      imagesrcset="assets/img/tweaks-1280.webp 1280w, assets/img/tweaks-1920.webp 1920w, assets/img/tweaks-2560.webp 2560w"
+      imagesizes="(min-width: 1100px) 62vw, 120vw">
+<link rel="stylesheet" href="style.css?v=3">
+<script>document.documentElement.classList.add('js')</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="module" src="app.js?v=3"></script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" stroke="none" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.7-6.4L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M5 17l6-5-6-5M13 19h6"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+    <symbol id="i-gpu" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="9" cy="12" r="3"/><path d="M15 10h3M15 14h3"/></symbol>
+    <symbol id="i-memory" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="1.5"/><path d="M7 7v10M11 7v10M15 7v10M5 20v-3M19 20v-3"/></symbol>
+    <symbol id="i-drive" viewBox="0 0 24 24"><path d="M22 12H2M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol>
+    <symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 12h18M3 7.5h4M3 16.5h4M17 7.5h4M17 16.5h4"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3M15 12h.01M18 13.5h.01"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+    <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 18 3-18"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 4-6 3-11.5 7.5"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></symbol>
+    <symbol id="i-menubar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18M14 6h4"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M16.4 12.7c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8-.7 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.2.8 1.1 1.7 2.3 2.8 2.3 1.1-.1 1.6-.7 2.9-.7 1.4 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.2.9-1.3 1.2-2.5 1.2-2.6 0 0-2.3-.9-2.3-3.6zM14.1 5.6c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></symbol>
+  </defs>
+</svg>
+
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="nav" role="banner">
-  <div class="wrap nav-row">
-    <a class="brand" href="#top" aria-label="Keel, back to top">
-      <img src="assets/favicon-64.png" width="22" height="22" alt="">
-      <span>Keel</span>
-    </a>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Keel, back to top"><img src="assets/favicon-64.png" width="28" height="28" alt=""><span>Keel</span></a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#tweaks">Tweaks</a>
+      <a href="#catalog">Catalog</a>
       <a href="#undo">Undo</a>
       <a href="#cleanup">Cleanup</a>
       <a href="#benchmark">Benchmark</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#specs">Specs</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn-primary btn-small" href="https://github.com/mohdmahmodi/keel/releases/latest">Download</a>
+    <div class="nav-cta">
+      <a class="icon-link" href="https://github.com/mohdmahmodi/keel" aria-label="Keel on GitHub"><svg class="ic"><use href="#i-github"/></svg></a>
+      <a class="btn btn-primary" data-download href="https://github.com/mohdmahmodi/keel/releases/download/v1.0.0/Keel-1.0.0.dmg"><span>Download</span><svg class="ic"><use href="#i-download"/></svg></a>
+    </div>
   </div>
 </header>
 
 <main id="main">
+  <div class="frame" id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas class="glow-canvas" id="glow" aria-hidden="true"></canvas>
+      <div class="glow-fallback" aria-hidden="true"></div>
 
-  <!-- Hero -->
-  <section class="hero" id="top" aria-labelledby="hero-title">
-    <div class="wrap center">
-      <img class="hero-icon" src="assets/icon-256.png" width="96" height="96" alt="">
-      <h1 id="hero-title">Keel</h1>
-      <p class="hero-lede">Tunes and cleans your Apple Silicon Mac. Every change shows its current value first, is recorded before it is made, and can be put back exactly.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/mohdmahmodi/keel/releases/latest">Download for Mac</a>
-        <a class="link-arrow" href="https://github.com/mohdmahmodi/keel">View source on GitHub</a>
+      <div class="hero-copy">
+        <p class="badge"><span class="badge-ic"><img src="assets/favicon-64.png" width="18" height="18" alt=""></span>Free and open source for Apple silicon</p>
+        <h1 id="hero-title">Tune your Mac.<br>Put it back <span class="accent">exactly.</span></h1>
+        <p class="lede">Keel records every setting before it changes it, checks the result, and restores the original when you switch it off.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" data-download href="https://github.com/mohdmahmodi/keel/releases/download/v1.0.0/Keel-1.0.0.dmg"><svg class="ic"><use href="#i-apple"/></svg><span>Download for Mac</span></a>
+          <a class="btn btn-lg" href="https://github.com/mohdmahmodi/keel"><svg class="ic"><use href="#i-github"/></svg><span>View on GitHub</span></a>
+        </div>
+        <p class="dl-meta" data-dl-meta>Version 1.0.0 · 3 MB · MIT license</p>
+        <ul class="chips hero-chips" aria-label="Requirements">
+          <li class="chip"><svg class="ic c-gray"><use href="#i-apple"/></svg>macOS 15 or later</li>
+          <li class="chip"><svg class="ic c-orange"><use href="#i-cpu"/></svg>Apple silicon</li>
+          <li class="chip"><svg class="ic c-green"><use href="#i-shield"/></svg>Notarized by Apple</li>
+        </ul>
       </div>
-      <p class="meta">Apple Silicon <span aria-hidden="true">·</span> macOS 15 or later <span aria-hidden="true">·</span> Free</p>
-    </div>
-    <div class="wrap wide">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" type="image/webp"
-                srcset="assets/hero-dark-800.webp 800w, assets/hero-dark-1600.webp 1600w"
-                sizes="(min-width: 1120px) 1088px, calc(100vw - 32px)">
-        <img class="shot hero-shot"
-             src="assets/hero-light-1600.webp"
-             srcset="assets/hero-light-800.webp 800w, assets/hero-light-1600.webp 1600w"
-             sizes="(min-width: 1120px) 1088px, calc(100vw - 32px)"
-             width="1600" height="1025" fetchpriority="high"
-             alt="Keel's Tweaks page. Cards grouped by area show each tweak's state, risk and impact. A side panel explains one tweak: what it does, what you will notice, what you give up, the current values on this Mac and how to undo it.">
-      </picture>
-    </div>
-  </section>
 
-  <!-- What it does -->
-  <section class="band alt" aria-labelledby="what-title">
-    <div class="wrap">
-      <p class="eyebrow">What it does</p>
-      <h2 id="what-title">Four tools, one record of every change.</h2>
-      <div class="tiles four">
-        <article class="tile">
-          <h3>Tweaks</h3>
-          <p>154 settings for macOS and common apps in 12 areas, plus cards for background updaters from 36 vendors that appear only when Keel finds them. Each shows its live state, its risk, an impact rating and the sources it is based on.</p>
-        </article>
-        <article class="tile">
-          <h3>Cleanup</h3>
-          <p>Measures caches and leftovers on disk and deletes only what you select. A protected group is listed but never deleted.</p>
-        </article>
-        <article class="tile">
-          <h3>Benchmark</h3>
-          <p>CPU, GPU, memory, SSD, network and Ollama tests. Compare a run before a change with a run after it.</p>
-        </article>
-        <article class="tile">
-          <h3>Activity</h3>
-          <p>A plain-language log of everything Keel did, including the exact commands it ran. It stays on your Mac.</p>
-        </article>
+      <div class="hero-visual">
+        <figure class="window hero-back">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <img src="assets/img/tweaks-1920.webp"
+               srcset="assets/img/tweaks-1280.webp 1280w, assets/img/tweaks-1920.webp 1920w, assets/img/tweaks-2560.webp 2560w"
+               sizes="(min-width: 1100px) 62vw, 120vw" width="2560" height="1640" fetchpriority="high" decoding="async"
+               alt="Keel's Tweaks page, with tweaks grouped by area and filters for who each tweak is for.">
+        </figure>
+        <figure class="panel hero-front">
+          <img src="assets/img/drawer-720.webp" srcset="assets/img/drawer-480.webp 480w, assets/img/drawer-720.webp 720w"
+               sizes="(min-width: 1100px) 300px, 40vw" width="720" height="1532" decoding="async"
+               alt="The detail panel for Dock appears instantly, with what it does, what you'll notice, what you give up and the current values.">
+        </figure>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Tweaks -->
-  <section class="band" id="tweaks" aria-labelledby="tweaks-title">
-    <div class="wrap">
-      <p class="eyebrow">Tweaks</p>
-      <h2 id="tweaks-title">Each tweak says what it changes and what you give up.</h2>
-      <p class="lede">Keel reads the current value of every setting when it opens. A tweak that does not apply to your Mac shows N/A and the reason, for example battery settings on a desktop Mac or Xcode settings without Xcode. A small set is marked recommended. Everything else is opt-in.</p>
+  <div class="frame">
+    <section class="block stats" aria-label="Keel in numbers">
+      <div class="stat"><b data-count="150" data-suffix="+">150+</b><span>tweaks across 12 areas</span></div>
+      <div class="stat"><b data-count="48">48</b><span>hidden gems</span></div>
+      <div class="stat"><b data-count="100" data-suffix="%">100%</b><span>of setting changes reversible</span></div>
+      <div class="stat"><b data-count="0">0</b><span>analytics or accounts</span></div>
+    </section>
+  </div>
 
+  <div class="frame">
+    <section class="block" aria-labelledby="how-title">
+      <div class="head center">
+        <h2 id="how-title">Four steps behind every switch</h2>
+      </div>
+      <ol class="flow">
+        <li class="flow-step"><span class="node">1</span><h3>Read</h3><p>The live value is shown before anything changes.</p></li>
+        <li class="flow-step"><span class="node">2</span><h3>Record</h3><p>The original is saved to Keel's backups folder.</p></li>
+        <li class="flow-step"><span class="node">3</span><h3>Apply and verify</h3><p>Changes run in one batch and are read back.</p></li>
+        <li class="flow-step"><span class="node">4</span><h3>Restore</h3><p>Switching off writes the recorded value back.</p></li>
+      </ol>
+    </section>
+  </div>
+
+  <div class="frame">
+    <section class="block" id="tweaks" aria-labelledby="tweaks-title">
+      <div class="head center">
+        <p class="badge"><span class="badge-ic"><svg class="ic c-orange"><use href="#i-sparkle"/></svg></span>Tweaks</p>
+        <h2 id="tweaks-title">Every setting tells you what it costs</h2>
+        <p class="sub">Live state, risk and impact on every card. Animation tweaks are labelled cosmetic.</p>
+      </div>
       <div class="split">
-        <div class="split-text">
-          <ul class="facts">
-            <li><strong>State.</strong> <span class="chip on">ON</span> <span class="chip">OFF</span> <span class="chip">PARTLY ON</span> <span class="chip">N/A</span>, read live from your Mac.</li>
-            <li><strong>Risk.</strong> <span class="chip">SAFE</span> <span class="chip">LOW</span> <span class="chip">MEDIUM</span></li>
-            <li><strong>Impact.</strong> <span class="chip">HIGH</span> <span class="chip">MEDIUM</span> <span class="chip">LOW</span> <span class="chip">COSMETIC</span>. Animation and appearance changes are labelled cosmetic, not faster.</li>
-            <li><strong>Values.</strong> The keys and values that decide the state, shown as they are, for example <code>com.apple.dock autohide-delay 0</code>.</li>
-            <li><strong>Sources.</strong> Apple documentation, man pages, vendor documentation or a note on what was checked on which macOS build.</li>
+        <article class="card copy-card">
+          <h3>Know what changes before it does</h3>
+          <p class="muted">The detail panel shows the exact keys, what you'll notice and what you give up.</p>
+          <ul class="timeline">
+            <li><b>Sized for your Mac</b><span>Battery tweaks appear on laptops. GPU memory is sized from your RAM.</span></li>
+            <li><b>Labels you can check</b><span>Each tweak cites Apple docs, man pages or a tested macOS build.</span></li>
+            <li><b>Exact commands</b><span>Every key and command is listed before you confirm.</span></li>
+          </ul>
+          <ul class="chips">
+            <li class="chip"><span class="dot on"></span>On</li>
+            <li class="chip"><span class="dot partly"></span>Partly on</li>
+            <li class="chip"><span class="dot off"></span>Off</li>
+            <li class="chip"><span class="dot na"></span>Not on this Mac</li>
+          </ul>
+        </article>
+        <div class="card tilt-card">
+          <figure class="window tilt">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <img loading="lazy" decoding="async" src="assets/img/detail-1920.webp"
+                 srcset="assets/img/detail-1280.webp 1280w, assets/img/detail-1920.webp 1920w, assets/img/detail-2560.webp 2560w"
+                 sizes="(min-width: 1100px) 900px, 140vw" width="2560" height="1640"
+                 alt="The Tweaks page with the detail panel open next to the list.">
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="frame">
+    <section class="block" id="catalog" aria-labelledby="catalog-title">
+      <div class="head">
+        <h2 id="catalog-title">Browse every tweak</h2>
+        <p class="sub">The full catalog from the current release. Open a row for the commands Keel runs.</p>
+      </div>
+      <div class="cat-tools">
+        <label class="search">
+          <svg class="ic"><use href="#i-search"/></svg>
+          <input id="q" type="search" placeholder="Search tweaks, keys or commands" autocomplete="off" spellcheck="false" aria-label="Search tweaks">
+        </label>
+        <div class="chips" role="group" aria-label="Filters">
+          <button class="chip chip-btn" type="button" data-flag="rec" aria-pressed="false"><svg class="ic c-amber"><use href="#i-star"/></svg>Recommended<small data-n="rec"></small></button>
+          <button class="chip chip-btn" type="button" data-flag="gem" aria-pressed="false"><svg class="ic c-rose"><use href="#i-gem"/></svg>Hidden gems<small data-n="gem"></small></button>
+          <button class="chip chip-btn" type="button" data-flag="nopw" aria-pressed="false"><svg class="ic c-green"><use href="#i-unlock"/></svg>No password<small data-n="nopw"></small></button>
+        </div>
+      </div>
+      <div class="chips who" role="group" aria-label="Who it's for">
+        <button class="chip chip-btn" type="button" data-who="Everyone" aria-pressed="false"><svg class="ic c-gray"><use href="#i-users"/></svg>Everyone<small data-n-who="Everyone"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Laptop users" aria-pressed="false"><svg class="ic c-amber"><use href="#i-laptop"/></svg>Laptops<small data-n-who="Laptop users"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Developers" aria-pressed="false"><svg class="ic c-sky"><use href="#i-terminal"/></svg>Developers<small data-n-who="Developers"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Local AI" aria-pressed="false"><svg class="ic c-orange"><use href="#i-cpu"/></svg>Local AI<small data-n-who="Local AI"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Privacy" aria-pressed="false"><svg class="ic c-green"><use href="#i-shield"/></svg>Privacy<small data-n-who="Privacy"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Creators" aria-pressed="false"><svg class="ic c-rose"><use href="#i-film"/></svg>Creators<small data-n-who="Creators"></small></button>
+        <button class="chip chip-btn" type="button" data-who="Gamers" aria-pressed="false"><svg class="ic c-sky"><use href="#i-game"/></svg>Gamers<small data-n-who="Gamers"></small></button>
+      </div>
+      <div class="chips cats" id="cats" role="group" aria-label="Category"></div>
+      <div class="cat-list" id="cat-list">
+        <noscript><p class="empty">The list needs JavaScript. The catalog is also in the <a href="https://github.com/mohdmahmodi/keel/tree/main/Sources/Keel/Core/Tweaks">source on GitHub</a>.</p></noscript>
+      </div>
+      <div class="cat-foot">
+        <p class="cat-count" id="cat-count" aria-live="polite"></p>
+        <button class="btn" id="cat-more" type="button" hidden>Show all</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="frame">
+    <section class="block" id="undo" aria-labelledby="undo-title">
+      <div class="split split-even">
+        <div class="copy">
+          <p class="badge"><span class="badge-ic"><svg class="ic c-orange"><use href="#i-undo"/></svg></span>Undo</p>
+          <h2 id="undo-title">Nothing changes until you confirm</h2>
+          <p class="sub">The sheet lists each change, its commands and whether macOS will ask for a password.</p>
+          <ul class="timeline">
+            <li><b>One prompt per batch</b><span>Root changes share a single prompt, or none with the helper.</span></li>
+            <li><b>Safety snapshot</b><span>An optional APFS snapshot before applying, removed after 24 hours.</span></li>
+            <li><b>Restore everything</b><span>One button in Settings puts every recorded original back.</span></li>
           </ul>
         </div>
-        <figure class="split-media narrow">
-          <img class="shot" loading="lazy" decoding="async"
-               src="assets/drawer-700.webp"
-               srcset="assets/drawer-400.webp 400w, assets/drawer-700.webp 700w"
-               sizes="(min-width: 900px) 340px, min(340px, calc(100vw - 32px))"
-               width="700" height="1498"
-               alt="Detail panel for the tweak 'Dock appears instantly'. Badges read ON, SAFE, MEDIUM IMPACT, RECOMMENDED and DOCK RESTARTS. Sections list what it does, what you will notice, what you give up, the two Dock preference values on this Mac, and how to undo it.">
+        <figure class="shot-confirm">
+          <img loading="lazy" decoding="async" src="assets/img/confirm-1199.webp"
+               srcset="assets/img/confirm-800.webp 800w, assets/img/confirm-1199.webp 1199w"
+               sizes="(min-width: 1100px) 600px, 92vw" width="1199" height="848"
+               alt="Confirmation sheet titled Turn on 4 recommended changes, showing one password prompt and an Apply 4 changes button.">
         </figure>
       </div>
+    </section>
+  </div>
 
-      <h3 class="sub">Areas</h3>
-      <div class="tiles cats">
-        <article class="cat">
-          <header><h4>Visual responsiveness</h4><span class="count">19</span></header>
-          <ul>
-            <li>Dock appears instantly</li>
-            <li>Spaces stay in the order you set</li>
-            <li>Drag a window from anywhere with Control-Command</li>
-            <li>Reduce transparency and motion, checked in place</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Privacy &amp; Security</h4><span class="count">23</span></header>
-          <ul>
-            <li>Application Firewall on, stealth mode on</li>
-            <li>Ask for password right after sleep or screen saver</li>
-            <li>Mac and third-party analytics off</li>
-            <li>FileVault, System Integrity Protection and Gatekeeper on</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Finder &amp; desktop</h4><span class="count">17</span></header>
-          <ul>
-            <li>Show all filename extensions</li>
-            <li>Screenshots go to a Screenshots folder</li>
-            <li>New Finder windows open your home folder</li>
-            <li>Clicking the wallpaper doesn't hide windows</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Keyboard, trackpad &amp; sound</h4><span class="count">14</span></header>
-          <ul>
-            <li>Tap to click</li>
-            <li>F1–F12 work as standard function keys</li>
-            <li>Keyboard navigation between all controls</li>
-            <li>Startup sound off</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Battery &amp; Power</h4><span class="count">19</span></header>
-          <ul>
-            <li>Sleep when idle on battery</li>
-            <li>Power Nap off on battery</li>
-            <li>Nothing is keeping the Mac awake</li>
-            <li>Battery charge limit</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Developer</h4><span class="count">16</span></header>
-          <ul>
-            <li>Show build duration in Xcode</li>
-            <li>Git: built-in file monitor and untracked cache</li>
-            <li>SSH: reuse connections for 10 minutes</li>
-            <li>Docker: Resource Saver after 2 minutes idle</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>AI tools</h4><span class="count">12</span></header>
-          <ul>
-            <li>GPU memory for local AI, sized for this Mac</li>
-            <li>Ollama: flash attention and q8_0 KV cache</li>
-            <li>Ollama: reachable only from this Mac</li>
-            <li>LM Studio and llama.cpp settings checked</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Storage</h4><span class="count">8</span></header>
-          <ul>
-            <li>Time Machine: skip developer caches</li>
-            <li>Release space held by local snapshots</li>
-            <li>At least 15 % of the disk is free</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Network</h4><span class="count">9</span></header>
-          <ul>
-            <li>AirDrop receiving: No One</li>
-            <li>AWDL off for this session</li>
-            <li>DNS: 1.1.1.1 and 1.0.0.1, current resolver as fallback</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Performance</h4><span class="count">9</span></header>
-          <ul>
-            <li>No Low Power Mode on the power adapter</li>
-            <li>Not slowed down by heat</li>
-            <li>Intel-only apps and Rosetta</li>
-          </ul>
-        </article>
-        <article class="cat">
-          <header><h4>Memory</h4><span class="count">5</span></header>
-          <ul>
-            <li>Shut down background iOS simulators</li>
-            <li>Google Chrome, Brave and Chromium Memory Saver</li>
-            <li>Memory pressure is normal</li>
-          </ul>
-        </article>
-        <article class="cat span">
-          <header><h4>Background apps</h4><span class="count">3 + found</span></header>
-          <ul>
-            <li>Don't reopen every app after a restart</li>
-            <li>Review Login Items &amp; Extensions</li>
-            <li>When found: updaters and login agents from 36 vendors, such as Google Updater and Zoom, and launch items whose app is gone</li>
-          </ul>
-        </article>
+  <div class="frame">
+    <section class="block" id="cleanup" aria-labelledby="cleanup-title">
+      <div class="head center">
+        <p class="badge"><span class="badge-ic"><svg class="ic c-orange"><use href="#i-trash"/></svg></span>Cleanup</p>
+        <h2 id="cleanup-title">Real sizes, measured on your Mac</h2>
+        <p class="sub">Xcode data, simulators, package caches, logs and old installers. Each item says what it costs to rebuild.</p>
       </div>
-      <p class="note">Counts are for the current version. Some tweaks only check a setting and open the right pane in System Settings, because only you can change it there.</p>
-    </div>
-  </section>
+      <figure class="window wide-shot">
+        <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+        <img loading="lazy" decoding="async" src="assets/img/cleanup-1920.webp"
+             srcset="assets/img/cleanup-1280.webp 1280w, assets/img/cleanup-1920.webp 1920w, assets/img/cleanup-2560.webp 2560w"
+             sizes="(min-width: 1100px) 1100px, 94vw" width="2560" height="1640"
+             alt="Keel's Cleanup page listing Xcode, simulator and package manager caches with measured sizes.">
+      </figure>
+      <div class="protect">
+        <p class="protect-label"><svg class="ic c-green"><use href="#i-lock"/></svg>Never deleted</p>
+        <ul class="chips">
+          <li class="chip"><svg class="ic c-orange"><use href="#i-cpu"/></svg>Ollama and LM Studio models</li>
+          <li class="chip"><svg class="ic c-sky"><use href="#i-box"/></svg>Virtual machines</li>
+          <li class="chip"><svg class="ic c-sky"><use href="#i-box"/></svg>Docker data</li>
+          <li class="chip"><svg class="ic c-amber"><use href="#i-terminal"/></svg>SDKs</li>
+          <li class="chip"><svg class="ic c-rose"><use href="#i-photo"/></svg>Photos library</li>
+          <li class="chip"><svg class="ic c-gray"><use href="#i-folder"/></svg>Downloads</li>
+          <li class="chip"><svg class="ic c-gray"><use href="#i-branch"/></svg>Your repositories</li>
+        </ul>
+      </div>
+    </section>
+  </div>
 
-  <!-- Undo -->
-  <section class="band alt" id="undo" aria-labelledby="undo-title">
-    <div class="wrap">
-      <p class="eyebrow">Undo</p>
-      <h2 id="undo-title">Changes you can undo exactly.</h2>
-      <p class="lede">Turning a tweak off puts back the value your Mac had before, not a guessed default. Keel records that value before it changes anything.</p>
-      <div class="split reverse">
-        <figure class="split-media">
-          <img class="shot" loading="lazy" decoding="async"
-               src="assets/confirm-1200.webp"
-               srcset="assets/confirm-700.webp 700w, assets/confirm-1200.webp 1200w"
-               sizes="(min-width: 900px) 520px, calc(100vw - 32px)"
-               width="1200" height="867"
-               alt="Confirmation sheet titled 'Turn on 4 recommended changes'. It reads: Keel records each original value first, verifies every change, and restores anything that does not stick. Four tweaks are listed with their risk and impact, with a Show all commands link and an Apply 4 changes button.">
+  <div class="frame">
+    <section class="block" id="benchmark" aria-labelledby="bench-title">
+      <div class="head center">
+        <p class="badge"><span class="badge-ic"><svg class="ic c-orange"><use href="#i-timer"/></svg></span>Benchmark</p>
+        <h2 id="bench-title">Measure first, then see the difference</h2>
+        <p class="sub">Run a benchmark before you change anything. Keel keeps it as your baseline and compares every later run against it.</p>
+      </div>
+      <ol class="baseline">
+        <li><span class="node">1</span><div><b>Run a baseline</b><span>CPU, GPU, memory, SSD, network and DNS, in about a minute.</span></div></li>
+        <li><span class="node">2</span><div><b>Apply what you want</b><span>Turn on recommended tweaks or pick your own.</span></div></li>
+        <li><span class="node">3</span><div><b>Run again and compare</b><span>Each result is checked against its noise band.</span></div></li>
+      </ol>
+      <div class="results">
+        <div class="result-grid">
+          <div class="card result"><b>Instant</b><span>Dock reveal, down from about half a second</span></div>
+          <div class="card result"><b>200&times;</b><span>faster window resizing, 200 ms to 1 ms</span></div>
+          <div class="card result"><b>30%</b><span>faster DNS lookups after switching resolver</span></div>
+          <div class="card result"><b>260 GB</b><span>freed on the developer's Mac, mostly old simulators and models</span></div>
+        </div>
+        <figure class="card compare" aria-labelledby="cmp-cap">
+          <div class="compare-head">
+            <p class="compare-title">Before and after</p>
+            <ul class="chips">
+              <li class="chip chip-sm"><span class="dot off"></span>Before</li>
+              <li class="chip chip-sm"><span class="dot after"></span>With Keel</li>
+            </ul>
+          </div>
+          <div class="cmp" id="cmp"></div>
         </figure>
-        <ol class="steps">
-          <li><h3>Record</h3><p>The current value, file or launchd property list is saved in <code>~/Library/Application Support/Keel/backups/</code> before the change.</p></li>
-          <li><h3>Confirm</h3><p>A sheet lists every change and the exact commands. Changes that need administrator rights share one password prompt per batch, or run through the optional helper.</p></li>
-          <li><h3>Verify</h3><p>After applying, Keel reads each setting again. Anything that did not stick is restored from the recording.</p></li>
-          <li><h3>Restore</h3><p>Switch a tweak off to restore one setting. <em>Restore everything Keel changed</em> in Settings lists every recorded original and its commands before it runs.</p></li>
-        </ol>
       </div>
-    </div>
-  </section>
+      <p class="fine center-fine" id="cmp-cap">Measured on the developer's MacBook Pro with M4 Pro. Animation times compare the macOS defaults with Keel's settings. Every Mac is different, so your results will depend on your hardware, your network and what's on your disk.</p>
+    </section>
+  </div>
 
-  <!-- Cleanup -->
-  <section class="band" id="cleanup" aria-labelledby="cleanup-title">
-    <div class="wrap">
-      <p class="eyebrow">Cleanup</p>
-      <h2 id="cleanup-title">Measured sizes. Deletes only what you select.</h2>
-      <p class="lede">Cleanup reads the actual size of Xcode and simulator data, package manager caches, app caches, logs and old installers. Each item says what it costs to rebuild, for example "Xcode rebuilds them on the next build".</p>
-      <figure class="wide-media">
-        <img class="shot" loading="lazy" decoding="async"
-             src="assets/cleanup-1600.webp"
-             srcset="assets/cleanup-800.webp 800w, assets/cleanup-1600.webp 1600w"
-             sizes="(min-width: 1120px) 1088px, calc(100vw - 32px)"
-             width="1600" height="810"
-             alt="Keel's Cleanup page. Under Developer, Xcode DerivedData, iOS DeviceSupport symbols per device and OS build, and simulator runtimes are listed with measured sizes. The newest symbols for each device model and runtimes still in use are kept by default.">
-      </figure>
-      <div class="tiles three">
-        <article class="tile">
-          <h3>Protected, never deleted</h3>
-          <p>Ollama and LM Studio models, the Hugging Face cache, Parallels, VMware and UTM virtual machines, Docker and OrbStack data, the Android and Flutter SDKs, the Photos library, Movies, Music, Downloads and build folders in your repositories. Keel lists their sizes and says where to manage them.</p>
-        </article>
-        <article class="tile">
-          <h3>Aware of local snapshots</h3>
-          <p>While APFS snapshots exist, deleted files can stay allocated. Keel reports the bytes it deleted and the change in free space separately, and says when snapshots are holding space. Time Machine snapshots can be removed here; others are left to the app that made them.</p>
-        </article>
-        <article class="tile">
-          <h3>Careful by default</h3>
-          <p>Keel refuses to delete top-level folders, Apple's system caches, Keychains and iCloud Drive data. Caches of a running app are skipped until you quit it. The Trash is emptied through Finder, and old installers are moved to the Trash, not deleted.</p>
-        </article>
+  <div class="frame">
+    <section class="block" aria-labelledby="limits-title">
+      <div class="head center">
+        <h2 id="limits-title">What Keel leaves alone</h2>
+        <p class="sub">Some popular tweaks do nothing on Apple silicon. Others weaken the Mac. <a href="https://github.com/mohdmahmodi/keel/blob/main/docs/NOT-INCLUDED.md">See the full list</a>.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Benchmark -->
-  <section class="band alt" id="benchmark" aria-labelledby="bench-title">
-    <div class="wrap">
-      <p class="eyebrow">Benchmark</p>
-      <h2 id="bench-title">Measure before and after.</h2>
-      <p class="lede">Run the benchmark, make a change, run it again and compare the two runs side by side. Keel shows the difference as a percentage with a noise band, and a difference inside the band is marked as noise.</p>
-      <figure class="wide-media">
-        <img class="shot" loading="lazy" decoding="async"
-             src="assets/benchmark-1600.webp"
-             srcset="assets/benchmark-800.webp 800w, assets/benchmark-1600.webp 1600w"
-             sizes="(min-width: 1120px) 1088px, calc(100vw - 32px)"
-             width="1600" height="810"
-             alt="Keel's Benchmark page. Test groups for CPU, memory, SSD, network and AI can be selected. A saved run labelled 'baseline (battery, High Power)' has A and B buttons for comparison, and its results list each test with how it was measured.">
-      </figure>
-      <div class="tiles three">
-        <article class="tile">
-          <h3>Tests</h3>
-          <p>CPU single and multi-core, GPU compute and bandwidth, memory bandwidth and latency, SSD sequential and 4K random, ping and DNS, network responsiveness, and Ollama tokens per second when Ollama is installed.</p>
-        </article>
-        <article class="tile">
-          <h3>Repeated samples</h3>
-          <p>Throughput tests report the best of three samples. Latency tests report the median. SSD tests write and delete a 1 GiB temporary file.</p>
-        </article>
-        <article class="tile">
-          <h3>Conditions recorded</h3>
-          <p>Each run stores power source, power mode, thermal state and time since boot. Runs within 15 minutes of boot are marked, and differing conditions are flagged when you compare.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Does not do -->
-  <section class="band" aria-labelledby="not-title">
-    <div class="wrap">
-      <p class="eyebrow">Limits</p>
-      <h2 id="not-title">What Keel does not do.</h2>
-      <ul class="nots">
-        <li><h3>No RAM cleaners</h3><p>Keel does not "free RAM" or purge memory. A purge empties the file cache, which macOS fills again within minutes.</p></li>
-        <li><h3>No weaker security</h3><p>It never asks you to turn off System Integrity Protection, Gatekeeper or FileVault. It checks that they are on.</p></li>
-        <li><h3>No placebo tweaks</h3><p>Network and kernel settings that do not help on Apple Silicon are left out. The <a href="https://github.com/mohdmahmodi/keel/blob/main/docs/NOT-INCLUDED.md">full list, with reasons</a>, is in the repository.</p></li>
-        <li><h3>No telemetry</h3><p>No account, no analytics, no crash reporting. Nothing about your Mac or your files is sent anywhere.</p></li>
-        <li><h3>Nothing in the background</h3><p>Nothing runs at login or in the background unless you turn it on.</p></li>
-        <li><h3>No automatic updates</h3><p>Keel can tell you a new version exists. You download and install it yourself.</p></li>
+      <ul class="limits">
+        <li><svg class="ic"><use href="#i-x"/></svg><b>RAM cleaners</b><span>macOS refills the file cache within minutes.</span></li>
+        <li><svg class="ic"><use href="#i-x"/></svg><b>Turning off SIP or Gatekeeper</b><span>Keel checks they're on and leaves them on.</span></li>
+        <li><svg class="ic"><use href="#i-x"/></svg><b>Old kernel and network tweaks</b><span>Settings that do nothing on Apple silicon.</span></li>
+        <li><svg class="ic"><use href="#i-x"/></svg><b>Telemetry</b><span>No account, no analytics, no crash reporting.</span></li>
+        <li><svg class="ic"><use href="#i-x"/></svg><b>Background agents</b><span>Nothing runs at login unless you turn it on.</span></li>
+        <li><svg class="ic"><use href="#i-x"/></svg><b>Silent updates</b><span>You see new versions and install them yourself.</span></li>
       </ul>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Privacy -->
-  <section class="band alt" id="privacy" aria-labelledby="privacy-title">
-    <div class="wrap">
-      <p class="eyebrow">Privacy</p>
-      <h2 id="privacy-title">Two network connections, both optional.</h2>
-      <p class="lede">Everything Keel records stays in <code>~/Library/Application Support/Keel/</code> and its preferences file. Only these two features use the network.</p>
-      <div class="tiles two">
-        <article class="tile">
-          <h3>Update check</h3>
-          <p>At most once a day, a request to <code>api.github.com</code> for the latest release. It sends no identifiers and no cookies. Turn it off in Settings › Updates.</p>
-        </article>
-        <article class="tile">
-          <h3>Benchmark network tests</h3>
-          <p>Only when you start them: pings to your router, 1.1.1.1, 8.8.8.8 and the nearest AWS region, DNS lookups, and Apple's <code>networkQuality</code> tool. The Ollama test talks to Ollama on your own Mac.</p>
-        </article>
+  <div class="frame">
+    <section class="block" id="privacy" aria-labelledby="privacy-title">
+      <div class="split split-even">
+        <div class="copy">
+          <p class="badge"><span class="badge-ic"><svg class="ic c-orange"><use href="#i-shield"/></svg></span>Privacy</p>
+          <h2 id="privacy-title">Two network features, both optional</h2>
+          <p class="sub">Everything else stays on your Mac.</p>
+          <dl class="rows">
+            <div><dt><svg class="ic c-sky"><use href="#i-download"/></svg>Update check</dt><dd>One request a day to api.github.com. No identifiers. Can be turned off.</dd></div>
+            <div><dt><svg class="ic c-green"><use href="#i-wifi"/></svg>Network tests</dt><dd>Pings and DNS lookups, only when you run the benchmark.</dd></div>
+          </dl>
+          <a class="link" href="privacy.html">Read the privacy policy<svg class="ic"><use href="#i-arrow"/></svg></a>
+        </div>
+        <figure class="card menubar-card">
+          <img loading="lazy" decoding="async" src="assets/img/menubar-640.webp"
+               srcset="assets/img/menubar-320.webp 320w, assets/img/menubar-640.webp 640w" sizes="320px" width="640" height="560"
+               alt="Keel's menu bar panel showing memory pressure, CPU, free disk space and four recommended changes that are off.">
+          <figcaption><svg class="ic c-orange"><use href="#i-menubar"/></svg>Memory, CPU and disk from the menu bar</figcaption>
+        </figure>
       </div>
-      <p class="note"><a href="https://github.com/mohdmahmodi/keel/blob/main/docs/PRIVACY.md">Read the full privacy statement</a></p>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Specs -->
-  <section class="band" id="specs" aria-labelledby="specs-title">
-    <div class="wrap">
-      <p class="eyebrow">Specifications</p>
-      <h2 id="specs-title">Requirements and details.</h2>
-      <dl class="specs">
-        <div><dt>Mac</dt><dd>Apple silicon (M1 or later). Intel Macs are not supported.</dd></div>
-        <div><dt>macOS</dt><dd>macOS 15 Sequoia or later</dd></div>
-        <div><dt>App</dt><dd>Native Swift and SwiftUI, arm64</dd></div>
-        <div><dt>Distribution</dt><dd>Disk image on GitHub Releases, signed with a Developer ID and notarized by Apple</dd></div>
-        <div><dt>Price</dt><dd>Free. No account.</dd></div>
-        <div><dt>Permissions</dt><dd>All optional, asked for the first time a feature needs one: administrator password or the Keel helper, Automation for Finder (Trash), Local Network (benchmark), Full Disk Access</dd></div>
-        <div><dt>Network</dt><dd>Daily update check (optional) and benchmark network tests (when you run them)</dd></div>
-        <div><dt>Your data</dt><dd><code>~/Library/Application Support/Keel/</code>: recorded originals, activity log, benchmark runs</dd></div>
-        <div><dt>Updates</dt><dd>Keel shows when a new release exists. Replace the app in Applications; settings and recorded originals are kept.</dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="band alt" id="faq" aria-labelledby="faq-title">
-    <div class="wrap narrow-wrap">
-      <p class="eyebrow">FAQ</p>
-      <h2 id="faq-title">Questions</h2>
-      <div class="faq">
-        <details>
-          <summary>Why does Keel ask for my administrator password?</summary>
-          <div><p>Some settings need root, for example energy settings, the firewall and DNS. Keel collects every root step in a batch and asks once. Turning on several tweaks together means one prompt.</p></div>
-        </details>
-        <details>
-          <summary>What is the Keel helper?</summary>
-          <div><p>An optional root helper that ships inside Keel.app, so you do not type your password for each batch. Install it in Keel's Settings, then allow Keel under System Settings › General › Login Items &amp; Extensions.</p>
-          <p>It accepts requests only from Keel signed by the same developer and runs only a fixed list of operations, such as <code>pmset</code> keys, two sysctls, launchd jobs, DNS servers, the firewall and Time Machine exclusions. Each request is checked against an allow-list; it never runs a shell command. Remove it with <strong>Remove</strong> in Settings.</p></div>
-        </details>
-        <details>
-          <summary>Does Keel need Full Disk Access?</summary>
-          <div><p>No. Without it, everything works. With it, Cleanup can also measure the Trash, Mail downloads and iPhone and iPad backups, which macOS hides from apps otherwise. Grant or remove it in System Settings › Privacy &amp; Security › Full Disk Access.</p></div>
-        </details>
-        <details>
-          <summary>Why does macOS ask whether Keel may control Finder?</summary>
-          <div><p>The Trash is protected by macOS. Keel asks Finder to measure and empty it, the same as Finder › Empty Trash. The prompt appears the first time you do this.</p></div>
-        </details>
-        <details>
-          <summary>Why does Keel want to find devices on my local network?</summary>
-          <div><p>The benchmark's gateway ping and local DNS test contact your router. macOS asks once, the first time those tests run.</p></div>
-        </details>
-        <details>
-          <summary>How do I undo everything before removing Keel?</summary>
-          <div><p>Open Settings and use <strong>Restore everything Keel changed</strong>, or switch off every tweak that shows ON. Keep <code>~/Library/Application Support/Keel/backups/</code> until every tweak is off. Cleanup cannot be undone: deleted caches are rebuilt by the apps that own them.</p></div>
-        </details>
-        <details>
-          <summary>How do I uninstall Keel?</summary>
-          <div><ol>
-            <li>Restore every change, as above.</li>
-            <li>In Settings, click <strong>Remove</strong> next to Keel helper and turn off Start at login.</li>
-            <li>Quit Keel from the menu bar and move Keel.app to the Trash.</li>
-            <li>Delete <code>~/Library/Application Support/Keel</code> and Keel's preferences.</li>
-          </ol>
-          <p>The <a href="https://github.com/mohdmahmodi/keel#uninstall-completely">full steps and Terminal commands</a> are in the read me.</p></div>
-        </details>
-        <details>
-          <summary>How do I check a download before opening it?</summary>
-          <div><p>Compare the checksum with the one on the release page, and ask Gatekeeper to assess the disk image:</p>
-<pre><code>shasum -a 256 ~/Downloads/Keel-*.dmg
-spctl --assess --type open --context context:primary-signature -vv ~/Downloads/Keel-*.dmg</code></pre></div>
-        </details>
+  <div class="frame">
+    <section class="block" id="faq" aria-labelledby="faq-title">
+      <div class="split faq-split">
+        <div>
+          <h2 id="faq-title">Questions</h2>
+          <dl class="specs">
+            <div><dt>Mac</dt><dd>Apple silicon, M1 or later</dd></div>
+            <div><dt>macOS</dt><dd>15 Sequoia or later</dd></div>
+            <div><dt>App</dt><dd>Native Swift and SwiftUI</dd></div>
+            <div><dt>Download</dt><dd>3 MB, notarized by Apple</dd></div>
+            <div><dt>Price</dt><dd>Free, MIT license</dd></div>
+          </dl>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Should I run a benchmark first?</summary>
+            <p>Yes. Run one before you change anything. Keel keeps it as your baseline, so after each change you can run it again and see exactly what improved on your Mac.</p>
+          </details>
+          <details>
+            <summary>Why does Keel ask for my password?</summary>
+            <p>Energy settings, the firewall and DNS need root. Keel batches every root step and asks once. With the optional helper installed, it doesn't ask at all.</p>
+          </details>
+          <details>
+            <summary>What can the helper do?</summary>
+            <p>Only a fixed list of operations, such as specific <code>pmset</code> keys, two <code>sysctl</code>s, DNS servers, the firewall and Time Machine exclusions. It accepts requests only from Keel signed by the same developer and never runs a shell. Remove it from Settings at any time.</p>
+          </details>
+          <details>
+            <summary>Does Keel need Full Disk Access?</summary>
+            <p>No. With it, Cleanup can also measure the Trash, Mail downloads and device backups.</p>
+          </details>
+          <details>
+            <summary>How do I undo everything?</summary>
+            <p>Use Restore everything in Settings, or switch off each tweak that shows On. Keep <code>~/Library/Application Support/Keel/backups/</code> until you're done. Deleted caches are rebuilt by their apps.</p>
+          </details>
+          <details>
+            <summary>How do I verify the download?</summary>
+            <p>Compare the checksum on the release page, then ask Gatekeeper:</p>
+            <pre><code>shasum -a 256 ~/Downloads/Keel-*.dmg
+spctl --assess --type open --context context:primary-signature -vv ~/Downloads/Keel-*.dmg</code></pre>
+          </details>
+          <details>
+            <summary>Can I build it myself?</summary>
+            <p>Yes. Clone the repository and run <code>swift run Keel</code>. The <a href="https://github.com/mohdmahmodi/keel#build-from-source">read me</a> has the full steps.</p>
+          </details>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Final CTA -->
-  <section class="band end" aria-labelledby="end-title">
-    <div class="wrap center">
-      <img src="assets/icon-256.png" width="64" height="64" alt="" loading="lazy">
-      <h2 id="end-title">Download Keel</h2>
-      <p class="meta">Apple Silicon <span aria-hidden="true">·</span> macOS 15 or later <span aria-hidden="true">·</span> Free</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/mohdmahmodi/keel/releases/latest">Download for Mac</a>
-        <a class="link-arrow" href="https://github.com/mohdmahmodi/keel/releases">Release notes</a>
+  <div class="frame">
+    <section class="block final" aria-labelledby="final-title">
+      <div class="final-card">
+        <canvas class="orb-canvas" id="orb" aria-hidden="true"></canvas>
+        <div class="orb-fallback" aria-hidden="true"></div>
+        <div class="final-copy">
+          <img src="assets/icon-256.png" width="64" height="64" alt="" class="final-icon" loading="lazy" decoding="async">
+          <h2 id="final-title">Your Mac, set up the way you want it</h2>
+          <p class="sub">Free, open source and notarized. Nothing changes until you confirm.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary btn-lg" data-download href="https://github.com/mohdmahmodi/keel/releases/download/v1.0.0/Keel-1.0.0.dmg"><svg class="ic"><use href="#i-apple"/></svg><span>Download for Mac</span></a>
+            <a class="btn btn-lg" href="https://github.com/mohdmahmodi/keel/releases"><span>Release notes</span></a>
+          </div>
+          <p class="fine">By downloading Keel you agree to the <a href="terms.html">Terms of Use</a>.</p>
+        </div>
       </div>
-      <p class="note">Open the disk image and drag Keel onto Applications. Nothing changes until you switch a tweak on and confirm.</p>
-    </div>
-  </section>
+    </section>
+  </div>
 </main>
 
-<footer class="foot" role="contentinfo">
-  <div class="wrap foot-row">
-    <p>Keel for Mac</p>
-    <nav aria-label="Project links">
+<footer class="footer">
+  <div class="footer-in">
+    <a class="brand" href="#top"><img src="assets/favicon-64.png" width="22" height="22" alt=""><span>Keel</span></a>
+    <nav aria-label="Footer">
       <a href="https://github.com/mohdmahmodi/keel">GitHub</a>
       <a href="https://github.com/mohdmahmodi/keel#readme">Read me</a>
-      <a href="https://github.com/mohdmahmodi/keel/blob/main/docs/PRIVACY.md">Privacy</a>
       <a href="https://github.com/mohdmahmodi/keel/releases">Releases</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
     </nav>
-    <p class="fine">Keel is an independent app and is not affiliated with Apple. Mac and macOS are trademarks of Apple Inc.</p>
+    <p>Keel is an independent app and is not affiliated with Apple. Mac and macOS are trademarks of Apple Inc.</p>
   </div>
 </footer>
+
+<div class="dock-cta" id="dock-cta">
+  <img src="assets/favicon-64.png" width="32" height="32" alt="" loading="lazy">
+  <div><p class="dock-title">Keel for Mac</p><p class="dock-sub">Free · macOS 15+ · Apple silicon</p></div>
+  <a class="btn btn-primary" data-download href="https://github.com/mohdmahmodi/keel/releases/download/v1.0.0/Keel-1.0.0.dmg"><span>Download</span><svg class="ic"><use href="#i-download"/></svg></a>
+</div>
 </body>
 </html>

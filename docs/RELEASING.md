@@ -103,3 +103,18 @@ codesign -dvv /Applications/Keel.app/Contents/MacOS/KeelHelper 2>&1 | grep -E 'I
 # Identifier=com.mohdmahmodi.keel.helper
 # TeamIdentifier=KLB57Y57PP
 ```
+
+## Website
+
+The site in `docs/site/` is deployed by Cloudflare Pages from `main` (root directory `docs/site`, no build
+command). After a release that changes tweaks or the UI, refresh its data and images:
+
+```bash
+swift build
+scripts/site-data.py                                  # docs/site/tweaks.json from the app's catalog
+.build/debug/Keel --snapshots /tmp/keel-shots --tweak dock-autohide-instant
+scripts/site-images.py /tmp/keel-shots                # WebP screenshots and the Open Graph image
+```
+
+The snapshot run opens a window for a minute and waits for the cleanup scan to finish before capturing.
+`site-images.py` needs Pillow (`pip3 install pillow`).

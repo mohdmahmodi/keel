@@ -224,6 +224,40 @@ extension CLI {
                               "it's worth noting", "cutting-edge", "next-level", "turbocharge", "unleash", "magic", "lightning-fast", "a breeze"]
 
     /// Checks catalog copy and detection speed. Exit code 1 on errors.
+    /// `--move-check`: how Keel sees its own location (used to test the move to Applications).
+    static func moveCheck() async {
+        await MainActor.run {
+            let running = Bundle.main.bundleURL.resolvingSymlinksInPath()
+            let source = AppMover.originalURL(of: running)
+            print("running      \(running.path)")
+            print("original     \(source.path)\(source == running ? "" : "  (translocated)")")
+            print("origin       \(AppMover.origin(of: source))")
+            print("in Apps      \(AppMover.isInApplications(source))")
+            print("dev build    \(AppMover.isDevelopmentBuild(source))")
+            print("would offer  \(!AppMover.isInApplications(source) && !AppMover.isDevelopmentBuild(source))")
+        }
+    }
+
+    /// `--catalog-json`: the tweak catalog as JSON, used to build the website's tweak table.
+    static func catalogJSON() async {
+        let m = await Machine.profile()
+        let rows: [[String: Any]] = TweakCatalog.all.map { t in
+            var r: [String: Any] = [
+                "id": t.id, "name": t.name, "category": t.category.rawValue, "summary": t.summary,
+                "benefit": t.expectedBenefit, "tradeoff": t.tradeoff,
+                "risk": t.risk.rawValue, "impact": t.impact.rawValue.replacingOccurrences(of: " IMPACT", with: ""),
+                "recommended": t.recommended, "gem": t.isHiddenGem, "admin": t.needsAdmin,
+                "manual": t.isManual, "oneShot": t.oneShot,
+                "audience": t.audiences.map(\.rawValue).sorted(),
+                "commands": t.isManual ? [] : t.applyCommands(m)
+            ]
+            if let p = t.postAction.processName { r["restarts"] = p }
+            return r
+        }
+        let data = try! JSONSerialization.data(withJSONObject: rows, options: [.sortedKeys, .withoutEscapingSlashes])
+        FileHandle.standardOutput.write(data)
+    }
+
     static func lint() async -> Int32 {
         let store = TweakStore.shared
         var errors: [String] = [], warnings: [String] = []
