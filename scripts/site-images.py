@@ -57,7 +57,7 @@ for r in range(1300, 0, -8):
 img = ImageChops.add(Image.new("RGB", (W, H), (18, 18, 18)), glow.filter(ImageFilter.GaussianBlur(80)))
 
 ui = shot("tweaks-drawer-1280-dark").resize((1400, 897), Image.LANCZOS)
-x, y = 1180, 440
+x, y = 1260, 440
 shadow = Image.new("L", (W, H))
 ImageDraw.Draw(shadow).rounded_rectangle((x, y + 40, x + 1400, y + 937), radius=30, fill=230)
 img.paste((0, 0, 0), (0, 0), shadow.filter(ImageFilter.GaussianBlur(60)))
@@ -69,12 +69,17 @@ ImageDraw.Draw(img).rounded_rectangle((x, y, x + 1400, y + 897), radius=30, outl
 icon = Image.open(os.path.join(root, "docs", "site", "assets", "icon-256.png")).convert("RGBA").resize((168, 168), Image.LANCZOS)
 img.paste(icon, (140, 150), icon)
 d = ImageDraw.Draw(img)
-d.text((136, 400), "Tune your Mac.", font=sf(118, 640), fill=(242, 242, 242))
-d.text((136, 540), "Put it back", font=sf(118, 640), fill=(242, 242, 242))
-d.text((136, 680), "exactly.", font=sf(118, 640), fill=(255, 146, 64))
-d.text((140, 900), "Free and open source", font=sf(48, 460), fill=(170, 170, 170))
-d.text((140, 966), "for Apple silicon Macs.", font=sf(48, 460), fill=(170, 170, 170))
+# Two-line headline, sized to fit beside the screenshot.
+size = 118
+while sf(size, 640).getlength("Put it back exactly.") > x - 136 - 56:
+    size -= 2
+head = sf(size, 640)
+d.text((136, 400), "Tune your Mac.", font=head, fill=(242, 242, 242))
+d.text((136, 400 + size * 1.2), "Put it back ", font=head, fill=(242, 242, 242))
+d.text((136 + head.getlength("Put it back "), 400 + size * 1.2), "exactly.", font=head, fill=(255, 146, 64))
+d.text((140, 760), "Free and open source", font=sf(48, 460), fill=(170, 170, 170))
+d.text((140, 826), "for Apple silicon Macs.", font=sf(48, 460), fill=(170, 170, 170))
 d.text((140, 1110), "keel.mohdmahmodi.com", font=sf(40, 500), fill=(120, 120, 120))
-path = os.path.join(out, "og.jpg")
+path = os.path.join(out, "og-2.jpg")
 img.resize((1200, 630), Image.LANCZOS).save(path, quality=88, optimize=True, progressive=True)
 print(f"{os.path.relpath(path, root)}  1200x630  {os.path.getsize(path) // 1024} KB")
