@@ -283,14 +283,13 @@ pre code { padding: 0; border: 0; background: none; font-size: 12px; line-height
 /* Benchmark */
 .baseline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 1100px; margin: 0 auto 40px; }
 .baseline li { display: flex; gap: 14px; align-items: flex-start; padding: 20px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); }
-.baseline li:first-child { border-color: rgba(255, 138, 92, .45); background: linear-gradient(180deg, rgba(255, 138, 92, .08), rgba(255, 138, 92, 0)), var(--surface); }
+.baseline li:first-child { border-color: rgba(255, 138, 92, .4); }
 .baseline .node { flex: none; width: 32px; height: 32px; margin: 0; box-shadow: 0 0 18px -6px rgba(255, 138, 92, .6); font-size: 12px; }
 .baseline b { display: block; font-weight: 500; font-size: 16px; }
 .baseline span:not(.node) { display: block; margin-top: 2px; color: var(--text-2); font-size: 14px; }
 .results { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px; max-width: 1100px; margin: 0 auto; }
 .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.result { display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; min-height: 150px; overflow: hidden; }
-.result::before { content: ""; position: absolute; right: -30%; top: -40%; width: 80%; height: 80%; background: radial-gradient(closest-side, rgba(255, 120, 60, .16), transparent); pointer-events: none; }
+.result { display: flex; flex-direction: column; justify-content: flex-start; padding: 24px; min-height: 150px; }
 .result b { font: 500 36px/1 var(--display); letter-spacing: -.03em; color: var(--text); }
 .result span { margin-top: 10px; color: var(--text-2); font-size: 14px; }
 .compare { padding: 28px; margin: 0; overflow: hidden; }
