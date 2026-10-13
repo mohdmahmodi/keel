@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+    <key>CFBundleName</key><string>Keel</string>
+    <key>CFBundleDisplayName</key><string>Keel</string>
+    <key>CFBundleIdentifier</key><string>com.mohdmahmodi.keel</string>
+    <!-- Both version strings are stamped into the bundle copy by scripts/build-app.sh
+         (KEEL_VERSION / KEEL_BUILD; scripts/release.sh sets them). These are the fallbacks. -->
+    <key>CFBundleShortVersionString</key><string>1.0.0</string>
+    <key>CFBundleVersion</key><string>1</string>
+    <key>CFBundleExecutable</key><string>Keel</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleIconFile</key><string>Keel</string>
+    <key>LSMinimumSystemVersion</key><string>15.0</string>
+    <key>LSArchitecturePriority</key><array><string>arm64</string></array>
+    <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
+    <key>NSHighResolutionCapable</key><true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key><true/>
+    <key>NSHumanReadableCopyright</key><string>© 2026 Mohd Mahmodi</string>
+    <!-- Cleanup asks Finder for the Trash size and to empty it (Automation permission). -->
+    <key>NSAppleEventsUsageDescription</key><string>Keel asks Finder to measure and empty the Trash. It sends no other Apple Events.</string>
+    <!-- The benchmark pings your router and times DNS lookups against your network's DNS server. -->
+    <key>NSLocalNetworkUsageDescription</key><string>The benchmark measures latency to your router and your network's DNS server. Nothing else on your network is contacted.</string>
+    <!-- The Ollama benchmark talks to a local server on 127.0.0.1:11434 over plain HTTP. -->
+    <key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
+    <!-- GitHub repository (owner/name) whose latest release the update check reads. Remove to disable it. -->
+    <key>KeelUpdateRepo</key><string>mohdmahmodi/keel</string>
+</dict>
+</plist>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>com.mohdmahmodi.keel.helper</string>
+    <key>BundleProgram</key><string>Contents/MacOS/KeelHelper</string>
+    <key>ProgramArguments</key><array><string>Contents/MacOS/KeelHelper</string><string>--xpc</string></array>
+    <key>MachServices</key><dict><key>com.mohdmahmodi.keel.helper</key><true/></dict>
+    <key>AssociatedBundleIdentifiers</key><array><string>com.mohdmahmodi.keel</string></array>
+</dict>
+</plist>

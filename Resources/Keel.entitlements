@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Keel is not sandboxed: it reads other apps' preferences and runs system tools.
+         Applied to the app only (hardened runtime, Developer ID). The helper needs no entitlements.
+         Apple Events: Cleanup asks Finder to measure and empty the Trash (see NSAppleEventsUsageDescription).
+         No JIT, unsigned-memory, library-validation or get-task-allow exceptions: notarization rejects
+         get-task-allow and the app needs none of the others. -->
+    <key>com.apple.security.automation.apple-events</key><true/>
+</dict>
+</plist>

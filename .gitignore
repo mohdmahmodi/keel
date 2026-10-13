@@ -1,0 +1,9 @@
+.build/
+dist/
+dist.noindex/
+*.xcodeproj
+.DS_Store
+scan/
+.swiftpm/
+*.dmg
+research/

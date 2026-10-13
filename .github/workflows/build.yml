@@ -1,0 +1,60 @@
+# Builds and checks Keel on every push and pull request. Unsigned (ad-hoc) only:
+# this workflow has no signing identity, no notary credentials and never publishes anything.
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest   # Apple silicon (arm64)
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # build number = commit count
+
+      - name: Toolchain
+        run: |
+          uname -m
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Shell scripts parse
+        run: for f in scripts/*.sh; do zsh -n "$f"; done
+
+      - name: Plists are valid
+        run: plutil -lint Resources/*.plist Resources/*.entitlements
+
+      - name: Build app bundle (release, arm64, ad-hoc)
+        run: scripts/build-app.sh release
+
+      - name: Check bundle layout
+        run: scripts/verify-bundle.sh dist.noindex/Keel.app
+
+      - name: Privileged-operation allow-list
+        run: |
+          out="$(dist.noindex/Keel.app/Contents/MacOS/Keel --validate-ops)"
+          echo "$out"
+          ! echo "$out" | grep -q '^FAIL'
+
+      - name: Engine, catalog lint and hardware simulation
+        run: |
+          swift build
+          .build/debug/Keel --engine-test | tee engine.txt; ! grep -q '^FAIL' engine.txt
+          .build/debug/Keel --lint
+          .build/debug/Keel --simulate | tee sim.txt; ! grep -q 'FAIL' sim.txt
+
+      - name: Release script dry run
+        run: scripts/release.sh 0.0.0 --dry-run
